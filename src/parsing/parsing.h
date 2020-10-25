@@ -1,5 +1,5 @@
 #pragma  once
-#include "../ast/ast.h"
+#include "ast/ast.h"
 #include "../../third_party/antlr_runtime/antlr4-runtime.h"
 
 namespace dp{
