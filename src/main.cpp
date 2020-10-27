@@ -1,10 +1,19 @@
 #include <iostream>
 #include <fstream>
-#include "../third_party/wabt/src/option-parser.h"
-#include "../third_party/antlr_runtime/antlr4-runtime.h"
+#include "ast/parsing.h"
+
+/*
+    invoking LIBS 
+ */
+#define USE_ANTLR_RUNTIME
+#define USE_OPTION_PARSER
+#include "ast/include/includeLIB.h"
+
+
 
 using namespace std;
 using namespace wabt;
+using namespace dp::internal;
 
 static std::string s_infile;
 static std::string s_outfile;
@@ -45,6 +54,19 @@ int main(int argc, char** argv)
         @needed: wabt::OptionParser  antlr4::ConvertBackslashToSlash
     */
     parseOptions(argc, argv);    
+
+    std::ifstream infile(s_infile);
+    if(!infile.is_open()) {
+        return -1; 
+    }
+
+    Parser* parser = new Parser();
+    antlr4::ANTLRInputStream input(infile);
+    auto module = parser->parseModule(input);
+
+
+
+
 
 
     return 0;
