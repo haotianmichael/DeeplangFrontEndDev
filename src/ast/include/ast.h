@@ -1,4 +1,4 @@
-#include "../util/utils.h"
+#include "../../include/common.h"
 #include "type.h"
 
 namespace dp {
@@ -204,13 +204,34 @@ namespace dp {
             BitwiseOr,
         };
 
+
+        class BinaryExpression : public ExpressionMixin<ExpressionKind::Binary> {
+            public:
+                BinaryExpression (BinaryOperator op, const Location& loc = Location())
+                    : ExpressionMixin<ExpressionKind::Binary>(loc), op(op){
+
+                    }
+                virtual ~BinaryExpression ();
+
+                std::string toString() const {
+                    return "BinaryExpression"; 
+                }
+
+            private:
+                /* data */
+                BinaryOperator op;
+                ExpressionPtr left;
+                ExpressionPtr right;
+        };
+
+
         class BlockExpression : public ExpressionMixin<ExpressionKind::Binary> {
             public:
                 BlockExpression(BinaryOperator op, const Location& loc = Location()) 
                     : ExpressionMixin<ExpressionKind::Binary>(loc), op(op){
-                
-                }        
-        
+
+                    }        
+
                 std::string toString() const {
                     return "BlockExpression"; 
                 }
@@ -225,17 +246,44 @@ namespace dp {
             public:
                 CallExpression(const Location& loc = Location()) :
                     ExpressionMixin<ExpressionKind::Call>(loc){
-                
-                } 
-        
+
+                    } 
+
+                ExpressionPtr receiver;
+                ExpressionPtr methor;
+                ExpressionVector params;
         };
 
 
+        class LiteralExpression : public ExpressionMixin<ExpressionKind::Literal> {
+        public:
+            LiteralExpression (int32_t value, const Location& loc = Location())
+                : ExpressionMixin<ExpressionKind::Literal>(loc), i32val(value), typ(LiteralExpression::Typ::I32) {
+                }
+            virtual ~LiteralExpression ();
+        
+        private:
+            enum Typ{
+                I32,
+                I64,
+                F32,
+                F64,
+                String 
+            };
+            Typ typ;
+
+            union{
+                int32_t i32val;
+                int64_t i64val;
+                float f32val;
+                float f64val;
+                std::string strval;
+            };
+        };
 
 
         //Module
-        class Module : ASTNode
-        {
+        class Module : public ASTNode {
             public:
                 Module (std::string name, const Location& loc = Location()) 
                     : ASTNode(loc), id(name){
