@@ -36,10 +36,6 @@
 #include "DLParser.h"
 #endif
 
-#ifdef  LIB_DLPARSERVISITOR_H
-#include "DLParserVisitor.h"
-#endif
-
 
 
 /*===================WABT=================================*/

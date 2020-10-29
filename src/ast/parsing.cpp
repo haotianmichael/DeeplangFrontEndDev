@@ -7,7 +7,6 @@
 #define LIB_ANTLR_RUNTIME
 #define LIB_DLLEXER_H
 #define LIB_DLPARSER_H
-#define LIB_DPPARSER_VISITOR_H
 #include "astIncludeFrom.h"
 
 
