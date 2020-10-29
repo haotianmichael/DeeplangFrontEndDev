@@ -30,7 +30,14 @@ function (deeplang_executable)
 
     set(ELF_INCLUDE
         PRIVATE
-        src/
+        #SOURCE
+        src/include
+        src/ast/lib
+
+        #LIB
+        lib/
+        gen/lib/antlr
+        lib/include
         third_party/
         ${WABT_SOURCE_DIR}
         ${WABT_BINARY_DIR}
@@ -38,9 +45,20 @@ function (deeplang_executable)
         ${ELF_INCLUDE}
     )
 
-    set(EXE_SOURCES
+    set(ELF_SOURCES
 
-        ${EXE_SOURCES}     
+        gen/lib/antlr/DLLexer.cpp
+        gen/lib/antlr/DLParser.cpp
+        gen/lib/antlr/DLParserVisitor.cpp
+        gen/lib/antlr/DLParserBaseVisitor.cpp
+
+        src/ast/include/ast.h
+        src/ast/include/type.h
+        src/ast/include/parsing.h
+        src/ast/parsing.cpp 
+        src/include/error.h
+
+        ${ELF_SOURCES}     
     )
 
     set(ELF_LIBS

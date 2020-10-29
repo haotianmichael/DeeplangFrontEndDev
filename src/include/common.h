@@ -15,12 +15,14 @@ namespace dp{
         exit(1);   \
     }while(0)
 
+
     struct Location{
         std::string fileName;
-        unsigned int line; 
-        unsigned int firstColunm;
+        unsigned int line;
+        unsigned int firstColumn;
         unsigned int lastColumn;
     };
+
 
     inline std::string stringPrintf(const char* format, ...) {
         va_list args;
