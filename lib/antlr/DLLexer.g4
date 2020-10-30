@@ -1,82 +1,6 @@
 lexer grammar DLLexer;
 
-/*
- * Copyright (c) 2012, 2020, Oracle and/or its affiliates. All rights reserved.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2.0,
- * as published by the Free Software Foundation.
- *
- * This program is also distributed with certain software (including
- * but not limited to OpenSSL) that is licensed under separate terms, as
- * designated in a particular file or component or in included license
- * documentation. The authors of MySQL hereby grant you an additional
- * permission to link the program and your derivative works with the
- * separately licensed software that they have included with MySQL.
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License, version 2.0, for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
- */
-
-
-//-------------------------------------------------------------------------------------------------
-
-// $antlr-format alignTrailingComments on, columnLimit 150, maxEmptyLinesToKeep 1, reflowComments off, useTab off
-// $antlr-format allowShortRulesOnASingleLine on, alignSemicolons ownLine
-
-// TODO: predefined.tokens
-options {
-    tokenVocab = DLLexer; // Certain tokens in a predefined order for simpler checks.
-}
-
-tokens {
-    NOT2_SYMBOL,
-    CONCAT_PIPES_SYMBOL,
-
-    // Tokens assigned in NUMBER rule.
-    INT_NUMBER, // NUM in sql_yacc.yy
-    LONG_NUMBER,
-    ULONGLONG_NUMBER
-}
-
-@postinclude {
-}
-
-//-------------------------------------------------------------------------------------------------
-
-@header {/*
- * Copyright (c) 2018, 2019, Oracle and/or its affiliates. All rights reserved.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2.0,
- * as published by the Free Software Foundation.
- *
- * This program is also distributed with certain software (including
- * but not limited to OpenSSL) that is licensed under separate terms, as
- * designated in a particular file or component or in included license
- * documentation. The authors of MySQL hereby grant you an additional
- * permission to link the program and your derivative works with the
- * separately licensed software that they have included with MySQL.
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
- * the GNU General Public License, version 2.0, for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*/
-}
-
-//-------------------------------------------------------------------------------------------------
-
 // Operators
-//
 ASSIGN_OPERATOR:           '==';
 EQUAL_OPERATOR:            '=';
 GREATER_OR_EQUAL_OPERATOR: '>=';
@@ -264,27 +188,10 @@ IDENTIFIER:
     LETTER_WHEN_UNQUOTED_NO_DIGIT LETTER_WHEN_UNQUOTED*
 ;
 
-// MySQL supports automatic concatenation of multiple single and double quoted strings if they follow each other as separate
-// tokens. This is reflected in the `textLiteral` parser rule.
-// Here we handle duplication of quotation chars only (which must be replaced by a single char in the target code).
-
 //
 fragment BACK_TICK:    '`';
 fragment SINGLE_QUOTE: '\'';
 fragment DOUBLE_QUOTE: '"';
-
-// TODO: TEST
-//BACK_TICK_QUOTED_ID: BACK_TICK (({!isSqlModeActive(NoBackslashEscapes)}? '\\')? .)*? BACK_TICK;
-//
-//DOUBLE_QUOTED_TEXT: (
-//        DOUBLE_QUOTE (({!isSqlModeActive(NoBackslashEscapes)}? '\\' .)? .)*? DOUBLE_QUOTE
-//    )+
-//;
-//
-//SINGLE_QUOTED_TEXT: (
-//        SINGLE_QUOTE (({!isSqlModeActive(NoBackslashEscapes)}? '\\')? .)*? SINGLE_QUOTE
-//    )+
-//;
 
 // TODO: right?
 QUOTED_STRING:
@@ -331,5 +238,3 @@ fragment LETTER_WHEN_UNQUOTED: DIGIT | LETTER_WHEN_UNQUOTED_NO_DIGIT;
 
 fragment LETTER_WHEN_UNQUOTED_NO_DIGIT: [a-zA-Z_$];//\u0080-\uffff];
 
-// Any letter but without e/E and digits (which are used to match a decimal number).
-//fragment LETTER_WITHOUT_FLOAT_PART: [a-df-zA-DF-Z_$\u0080-\uffff];
