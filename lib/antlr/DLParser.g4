@@ -21,10 +21,6 @@ expressionStatement :
     | unblockExpression
 ;
 
-whileStmt : 
-    WHILE_SYMBOL '(' CONDITION ')'
-
-
 
 blockExpression :
     OPEN_CURLY_SYMBOL statements CLOSE_CURLY_SYMBOL
@@ -71,11 +67,39 @@ decl :
     | variableDecl
 ;
 
+comOP :
+    ASSIGN_OPERATOR
+    | EQUAL_OPERATOR
+    | GREATER_OR_EQUAL_OPERATOR
+    | GREATER_THAN_OPERATOR
+    | LESS_OR_EQUAL_OPERATOR
+    | LESS_THAN_OPERATOR
+    | NOT_EQUAL_OPERATOR
+    | NOT_EQUAL2_OPERATOR
+;
+
+
+condition :
+    unblockExpression op=(EQUAL_OPERATOR | NOT_EQUAL_OPERATOR) unblockExpression
+    | unblockExpression 
+;
+
+
+conditionElem :
+    expressionStatement
+    | expressionStatement ELSE_SYMBOL conditionElem
+    | expressionStatement ELSE_IF_SYMBOL  OPEN_PAR_SYMBOL condition CLOSE_PAR_SYMBOL conditionElem
+;
+
+conditionStmt : 
+    IF_SYMBOL OPEN_PAR_SYMBOL condition CLOSE_PAR_SYMBOL conditionElem
+;
 
 statement :
     decl
     | expressionStatement
     | conditionStmt
+/*
     | whileStmt
     | doWhileStmt
     | forStmt
@@ -83,6 +107,7 @@ statement :
     | callReturnStmt
     | callNoReturnStmt
     | returnStmt
+*/
     | SEMICOLON_SYMBOL
 ;
 
